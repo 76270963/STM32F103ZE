@@ -1,4 +1,4 @@
-08:43:40 **** Incremental Build of configuration Debug for project userapp ****
+19:15:40 **** Incremental Build of configuration Debug for project userapp ****
 make -j8 all 
 arm-none-eabi-size  userapp.elf 
    text	   data	    bss	    dec	    hex	filename

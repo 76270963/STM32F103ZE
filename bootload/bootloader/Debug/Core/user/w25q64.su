@@ -1,0 +1,10 @@
+../Core/user/w25q64.c:19:9:flash_read_byte	24	static
+../Core/user/w25q64.c:36:9:flash_send_byte	32	static
+../Core/user/w25q64.c:52:6:flash_write_enable	8	static
+../Core/user/w25q64.c:64:6:flash_wait_for_write_end	16	static
+../Core/user/w25q64.c:86:10:flash_read_ID	24	static
+../Core/user/w25q64.c:112:6:flash_read	24	static
+../Core/user/w25q64.c:138:6:flash_page_write	32	static
+../Core/user/w25q64.c:167:6:flash_write	32	static
+../Core/user/w25q64.c:202:6:flash_sector_erase	16	static
+../Core/user/w25q64.c:223:6:flash_block_erase	8	static

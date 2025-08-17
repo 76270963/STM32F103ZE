@@ -1,3 +1,4 @@
 ../Core/user/usart_interface.c:25:1:__io_putchar	2
 ../Core/user/usart_interface.c:37:6:usartSend	1
 ../Core/user/usart_interface.c:45:6:USART_IRQHandler_myself	3
+../Core/user/usart_interface.c:60:6:HAL_UART_ErrorCallback	5

@@ -1,0 +1,13 @@
+/*
+ * w25q64.c
+ *
+ *  Created on: Aug 17, 2025
+ *      Author: Administrator
+ */
+
+#ifndef USER_W25Q64_C_
+#define USER_W25Q64_C_
+
+#include "w25q64.h"
+
+#endif /* USER_W25Q64_C_ */

@@ -31,6 +31,8 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+extern IWDG_HandleTypeDef hiwdg;
+extern SPI_HandleTypeDef hspi2;
 extern UART_HandleTypeDef huart1;
 extern DMA_HandleTypeDef hdma_usart1_rx;
 extern DMA_HandleTypeDef hdma_usart1_tx;
@@ -40,6 +42,7 @@ extern DMA_HandleTypeDef hdma_usart1_tx;
 /* USER CODE BEGIN ET */
 #include <string.h>
 #include <stdio.h>
+#include <inttypes.h>
 #include <stdbool.h>
 /* USER CODE END ET */
 
@@ -48,6 +51,8 @@ extern DMA_HandleTypeDef hdma_usart1_tx;
 #include "usart_interface.h"
 #include "flash.h"
 #include "bootload.h"
+#include "w25q128.h"
+#include "w25q64.h"
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/
@@ -69,6 +74,8 @@ void Error_Handler(void);
 #define KEY1_GPIO_Port GPIOA
 #define KEY2_Pin GPIO_PIN_11
 #define KEY2_GPIO_Port GPIOF
+#define SPI2_NSS_Pin GPIO_PIN_12
+#define SPI2_NSS_GPIO_Port GPIOB
 #define LED2_Pin GPIO_PIN_3
 #define LED2_GPIO_Port GPIOD
 

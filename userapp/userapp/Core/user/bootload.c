@@ -133,6 +133,13 @@ void SendBootLoad(uint8_t cmd)
 	usartSend(buffer_TX1,size);
 }
 
+void JumpProgram(uint32_t FlashAddr)
+{
+	JumpAddress = *(__IO uint32_t*) (FlashAddr + 4);
+	JumpToApplication = (pFunction) JumpAddress;
+	__set_MSP(*(__IO uint32_t*) FlashAddr);
+	JumpToApplication();
+}
 
 void BootLoad(void)
 {
@@ -172,14 +179,10 @@ void BootLoad(void)
 		}
 		SendBootLoad(cmd);
 	}
+	*/
 	else if(cmd == 0x04)
 	{
-		uint32_t OTASIGN[4] = {0x22222222,0x22222222,0x22222222,0x22222222};
-		Write_Flash(FLASH_OTA_ADDR,OTASIGN,4);
-		JumpAddress = *(__IO uint32_t*) (FLASH_USER_START_ADDR + 4);
-		JumpToApplication = (pFunction) JumpAddress;
-		__set_MSP(*(__IO uint32_t*) FLASH_USER_START_ADDR);
-		JumpToApplication();
+		JumpProgram(FLASH_USER_START_ADDR);
 	}
-	*/
+
 }

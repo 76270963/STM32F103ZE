@@ -1,0 +1,220 @@
+/*
+ * w25q64.c
+ *
+ *  Created on: Aug 17, 2025
+ *      Author: Administrator
+ */
+
+#ifndef USER_W25Q64_C_
+#define USER_W25Q64_C_
+
+#include "w25q64.h"
+
+
+/**
+  * @brief SPI1 读一个字节
+  * @param None
+  * @retval None
+  */
+uint8_t flash_read_byte(void)
+{
+    uint8_t t_data = 0, r_data = 0;
+
+    if(HAL_SPI_TransmitReceive(&hspi2, &t_data, &r_data, 1, 0xFFFFFF) != HAL_OK)
+    {
+        r_data = 0xff;
+    }
+    return r_data;
+}
+
+
+/**
+  * @brief SPI1 写一个字节
+  * @param byte 写入的字节
+  * @retval 写状态 0成功 1失败
+  */
+uint8_t flash_send_byte(uint8_t byte)
+{
+    uint8_t r_data;
+
+    if(HAL_SPI_TransmitReceive(&hspi2, &byte, &r_data, 1, 0xFFFFFF) != HAL_OK)
+    {
+      return 1;
+    }
+    return 0;
+}
+
+/**
+  * @brief FLASH 写使能
+  * @param None
+  * @retval None
+  */
+void flash_write_enable(void)
+{
+	W25Q64_CS(0);
+    flash_send_byte(0x06);
+    W25Q64_CS(1);
+}
+
+/**
+  * @brief FLASH 等待写结束
+  * @param None
+  * @retval None
+  */
+void flash_wait_for_write_end(void)
+{
+  uint8_t state = 0;
+
+  W25Q64_CS(0);
+
+  flash_send_byte(0x05);
+
+  do
+  {
+      state = flash_read_byte();
+  }
+  while((state & 0x01) == SET);
+
+  W25Q64_CS(1);
+}
+
+/**
+  * @brief FLASH 读ID
+  * @param None
+  * @retval None
+  */
+uint32_t flash_read_ID(void)
+{
+  uint32_t temp, temp0, temp1, temp2;
+
+  W25Q64_CS(0);
+
+  flash_send_byte(0x9F);
+
+  temp0 = flash_read_byte();
+  temp1 = flash_read_byte();
+  temp2 = flash_read_byte();
+
+  W25Q64_CS(1);
+
+  temp = (temp0 << 16) | (temp1 << 8) | temp2;
+
+  return temp;
+}
+
+/**
+  * @brief 读FLASH
+  * @param addr 读flash的起始地址
+  * @param pdata 读到的数据存放起始地址
+  * pdata size 读数据大小
+  * @retval None
+  */
+void flash_read(uint32_t addr,uint8_t *pdata, uint16_t size)
+{
+  W25Q64_CS(0);
+
+  flash_send_byte(0x03);
+
+  flash_send_byte((addr & 0xFF0000) >> 16);
+  flash_send_byte((addr & 0xFF00) >> 8);
+  flash_send_byte(addr  & 0xFF);
+
+  while (size--)
+  {
+    *pdata = flash_read_byte();
+    pdata++;
+  }
+
+  W25Q64_CS(1);
+}
+
+/**
+  * @brief 按页写FLASH
+  * @param addr 写入flash的起始地址
+  * @param pdata 写入数据的起始地址
+  * pdata size 写数据大小
+  * @retval None
+  */
+void flash_page_write(uint32_t addr, uint8_t *pdata, uint16_t size)
+{
+    uint16_t i;
+
+    flash_write_enable();
+
+    W25Q64_CS(0);
+
+    flash_send_byte(0x02);
+    flash_send_byte((uint8_t)((addr)>>16));
+    flash_send_byte((uint8_t)((addr)>>8));
+    flash_send_byte((uint8_t)addr);
+
+    for(i = 0; i < size; i++)
+    {
+        flash_send_byte(pdata[i]);
+    }
+
+    W25Q64_CS(1);
+    flash_wait_for_write_end();
+}
+
+/**
+  * @brief 写FLASH
+  * @param addr 写入flash的起始地址
+  * @param pdata 写入数据的起始地址
+  * pdata size 写数据大小
+  * @retval None
+  */
+void flash_write(uint32_t addr, uint8_t *pdata, uint32_t size)
+{
+    uint32_t page_remain;
+
+    page_remain = 256 - addr%256;
+
+    if(size <= page_remain)
+    {
+        page_remain = size;
+    }
+    while(1)
+    {
+        flash_page_write(addr, pdata, page_remain);
+
+        if(size == page_remain)
+            break;
+         else
+        {
+             pdata += page_remain;
+             addr += page_remain;
+
+             size -= page_remain;
+            if(size > 256)
+                page_remain = 256;
+            else
+                page_remain = size;
+        }
+    }
+}
+
+/**
+  * @brief 擦除FLASH扇区
+  * @param sector_addr 扇区的起始地址
+  * @retval None
+  */
+void flash_sector_erase(uint32_t sector_addr)
+{
+    flash_write_enable();
+    flash_wait_for_write_end();
+
+    W25Q64_CS(0);
+    flash_send_byte(0x20);
+    flash_send_byte((sector_addr & 0xFF0000) >> 16);
+    flash_send_byte((sector_addr & 0xFF00) >> 8);
+    flash_send_byte(sector_addr & 0xFF);
+
+    W25Q64_CS(1);
+
+    flash_wait_for_write_end();
+}
+
+
+
+#endif /* USER_W25Q64_C_ */

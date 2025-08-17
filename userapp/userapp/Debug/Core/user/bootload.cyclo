@@ -1,4 +1,5 @@
 ../Core/user/bootload.c:56:9:fun	2
 ../Core/user/bootload.c:80:10:GetCrc_16	2
 ../Core/user/bootload.c:93:6:SendBootLoad	4
-../Core/user/bootload.c:137:6:BootLoad	4
+../Core/user/bootload.c:136:6:JumpProgram	1
+../Core/user/bootload.c:144:6:BootLoad	5

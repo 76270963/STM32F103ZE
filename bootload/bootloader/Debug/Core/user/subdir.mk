@@ -7,17 +7,23 @@
 C_SRCS += \
 ../Core/user/bootload.c \
 ../Core/user/flash.c \
-../Core/user/usart_interface.c 
+../Core/user/usart_interface.c \
+../Core/user/w25q128.c \
+../Core/user/w25q64.c 
 
 OBJS += \
 ./Core/user/bootload.o \
 ./Core/user/flash.o \
-./Core/user/usart_interface.o 
+./Core/user/usart_interface.o \
+./Core/user/w25q128.o \
+./Core/user/w25q64.o 
 
 C_DEPS += \
 ./Core/user/bootload.d \
 ./Core/user/flash.d \
-./Core/user/usart_interface.d 
+./Core/user/usart_interface.d \
+./Core/user/w25q128.d \
+./Core/user/w25q64.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -27,7 +33,7 @@ Core/user/%.o Core/user/%.su Core/user/%.cyclo: ../Core/user/%.c Core/user/subdi
 clean: clean-Core-2f-user
 
 clean-Core-2f-user:
-	-$(RM) ./Core/user/bootload.cyclo ./Core/user/bootload.d ./Core/user/bootload.o ./Core/user/bootload.su ./Core/user/flash.cyclo ./Core/user/flash.d ./Core/user/flash.o ./Core/user/flash.su ./Core/user/usart_interface.cyclo ./Core/user/usart_interface.d ./Core/user/usart_interface.o ./Core/user/usart_interface.su
+	-$(RM) ./Core/user/bootload.cyclo ./Core/user/bootload.d ./Core/user/bootload.o ./Core/user/bootload.su ./Core/user/flash.cyclo ./Core/user/flash.d ./Core/user/flash.o ./Core/user/flash.su ./Core/user/usart_interface.cyclo ./Core/user/usart_interface.d ./Core/user/usart_interface.o ./Core/user/usart_interface.su ./Core/user/w25q128.cyclo ./Core/user/w25q128.d ./Core/user/w25q128.o ./Core/user/w25q128.su ./Core/user/w25q64.cyclo ./Core/user/w25q64.d ./Core/user/w25q64.o ./Core/user/w25q64.su
 
 .PHONY: clean-Core-2f-user
 

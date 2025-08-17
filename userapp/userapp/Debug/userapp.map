@@ -716,14 +716,16 @@ Discarded input sections
                 0x00000000       0x58 ./Core/user/bootload.o
  .text.SendBootLoad
                 0x00000000      0x120 ./Core/user/bootload.o
+ .text.JumpProgram
+                0x00000000       0x40 ./Core/user/bootload.o
  .text.BootLoad
-                0x00000000       0xcc ./Core/user/bootload.o
- .debug_info    0x00000000      0x2c1 ./Core/user/bootload.o
- .debug_abbrev  0x00000000      0x159 ./Core/user/bootload.o
+                0x00000000       0xe0 ./Core/user/bootload.o
+ .debug_info    0x00000000      0x319 ./Core/user/bootload.o
+ .debug_abbrev  0x00000000      0x195 ./Core/user/bootload.o
  .debug_aranges
-                0x00000000       0x38 ./Core/user/bootload.o
+                0x00000000       0x40 ./Core/user/bootload.o
  .debug_rnglists
-                0x00000000       0x27 ./Core/user/bootload.o
+                0x00000000       0x2d ./Core/user/bootload.o
  .debug_macro   0x00000000      0x2d2 ./Core/user/bootload.o
  .debug_macro   0x00000000      0xaa8 ./Core/user/bootload.o
  .debug_macro   0x00000000      0x21b ./Core/user/bootload.o
@@ -785,10 +787,10 @@ Discarded input sections
  .debug_macro   0x00000000       0x10 ./Core/user/bootload.o
  .debug_macro   0x00000000       0x2e ./Core/user/bootload.o
  .debug_macro   0x00000000       0x34 ./Core/user/bootload.o
- .debug_line    0x00000000      0xad0 ./Core/user/bootload.o
- .debug_str     0x00000000    0x8e666 ./Core/user/bootload.o
+ .debug_line    0x00000000      0xb16 ./Core/user/bootload.o
+ .debug_str     0x00000000    0x8e695 ./Core/user/bootload.o
  .comment       0x00000000       0x44 ./Core/user/bootload.o
- .debug_frame   0x00000000       0xac ./Core/user/bootload.o
+ .debug_frame   0x00000000       0xd0 ./Core/user/bootload.o
  .ARM.attributes
                 0x00000000       0x2d ./Core/user/bootload.o
  .group         0x00000000        0xc ./Core/user/flash.o

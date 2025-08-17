@@ -11,7 +11,7 @@
 #include "main.h"
 
 typedef  void (*pFunction)(void);
-
+void JumpProgram(uint32_t FlashAddr);
 void BootLoad(void);
 
 #endif /* BOOTLOAD_BOOTLOAD_H_ */

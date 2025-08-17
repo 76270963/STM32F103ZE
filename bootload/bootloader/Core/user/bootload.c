@@ -134,6 +134,15 @@ void SendBootLoad(uint8_t cmd)
 }
 
 
+
+void JumpProgram(uint32_t FlashAddr)
+{
+	JumpAddress = *(__IO uint32_t*) (FlashAddr + 4);
+	JumpToApplication = (pFunction) JumpAddress;
+	__set_MSP(*(__IO uint32_t*) FlashAddr);
+	JumpToApplication();
+}
+
 void BootLoad(void)
 {
 	uint8_t   cmd;
@@ -175,9 +184,6 @@ void BootLoad(void)
 	*/
 	else if(cmd == 0x04)
 	{
-		JumpAddress = *(__IO uint32_t*) (FLASH_USER_START_ADDR + 4);
-		JumpToApplication = (pFunction) JumpAddress;
-		__set_MSP(*(__IO uint32_t*) FLASH_USER_START_ADDR);
-		JumpToApplication();
+		JumpProgram(FLASH_USER_START_ADDR);
 	}
 }

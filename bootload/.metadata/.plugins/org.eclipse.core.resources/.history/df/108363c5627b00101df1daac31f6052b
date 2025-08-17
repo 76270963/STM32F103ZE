@@ -1,0 +1,18 @@
+/*
+ * w25q64.h
+ *
+ *  Created on: Aug 17, 2025
+ *      Author: Administrator
+ */
+
+#ifndef USER_W25Q64_H_
+#define USER_W25Q64_H_
+
+#include "main.h"
+
+#define W25Q64_CS(x)   do{ x ? \
+                                HAL_GPIO_WritePin(SPI2_NSS_GPIO_Port, SPI2_NSS_Pin, GPIO_PIN_SET): \
+                                HAL_GPIO_WritePin(SPI2_NSS_GPIO_Port, SPI2_NSS_Pin, GPIO_PIN_RESET); \
+                        }while(0)
+
+#endif /* USER_W25Q64_H_ */

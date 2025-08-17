@@ -28,7 +28,7 @@ PUTCHAR_PROTOTYPE
 		HAL_UART_Transmit_DMA(&huart1, (uint8_t *)&ch, 1);		//DMA串口发送数据
 		while(!__HAL_UART_GET_FLAG(&huart1,UART_FLAG_TC));
 	#else
-		HAL_UART_Transmit(&huart6, (uint8_t *)&ch, 1, 0xffff);	//普通串口发送数据
+		HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xffff);	//普通串口发送数据
 	#endif
 	    return ch;
 }
@@ -55,6 +55,37 @@ void USART_IRQHandler_myself(UART_HandleTypeDef *huart)
 			HAL_UART_Receive_DMA(&huart1,buffer_RX1,RX1_Size);
 		}
 	}
+}
+//DMA接收溢出错误，回调清除错误标志
+void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
+{
+	// 检查是否发生帧错误
+	if (huart->ErrorCode & HAL_UART_ERROR_FE)
+	{
+		__HAL_UART_CLEAR_FEFLAG(huart);
+		huart->RxState = HAL_UART_STATE_READY;
+		__HAL_UART_ENABLE_IT(huart, UART_IT_IDLE);
+	}
+
+	// 检查是否发生噪声错误
+	if (huart->ErrorCode & HAL_UART_ERROR_NE)
+	{
+		__HAL_UART_CLEAR_NEFLAG(huart);
+		huart->RxState = HAL_UART_STATE_READY;
+		__HAL_UART_ENABLE_IT(huart, UART_IT_IDLE);
+	}
+
+	// 检查是否发生溢出错误
+	if (huart->ErrorCode & HAL_UART_ERROR_ORE)
+	{
+		__HAL_UART_CLEAR_OREFLAG(huart);
+		huart->RxState = HAL_UART_STATE_READY;
+		__HAL_UART_ENABLE_IT(huart, UART_IT_IDLE);
+	}
+
+	if(huart->Instance == USART1)
+		HAL_UART_Receive_DMA(&huart1,buffer_RX1,RX1_Size);
+
 }
 
 
