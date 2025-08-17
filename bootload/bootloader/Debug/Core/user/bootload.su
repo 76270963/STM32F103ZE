@@ -1,0 +1,4 @@
+../Core/user/bootload.c:56:9:fun	32	static
+../Core/user/bootload.c:80:10:GetCrc_16	24	static
+../Core/user/bootload.c:93:6:SendBootLoad	24	static
+../Core/user/bootload.c:137:6:BootLoad	1048	static,ignoring_inline_asm

@@ -1,0 +1,4 @@
+../Core/user/flash.c:14:10:Read_Flash_halfword	1
+../Core/user/flash.c:21:6:Read_Flash	2
+../Core/user/flash.c:32:6:flash_write_nocheck	2
+../Core/user/flash.c:43:6:write_flash	10
